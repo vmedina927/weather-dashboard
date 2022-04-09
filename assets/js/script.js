@@ -311,4 +311,6 @@ $('#search-btn').on('click', function () {
     $('#current-weather').remove();
     $('#five-day').empty();
     $('#five-day-header').remove();
+    localStorage.clear()
+
 })
