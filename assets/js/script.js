@@ -98,10 +98,11 @@ function getWeather(city) {
     var apiCoordinatesUrl = openWeatherCoordinatesUrl + city + '&appid=' + openWeatherApiKey;
     // fetch the coordinates for parameter city
     fetch(apiCoordinatesUrl)
-        .then(function (coordinateResponse) {
+        .then( function (coordinateResponse) {
+            console.log(coordinateResponse.ok)
             if (coordinateResponse.ok) {
-                coordinateResponse.json().then(function (data) {
-                    var cityLatitude = data.coord.lat;
+                 coordinateResponse.json().then(function (data) {
+                    var cityLatitude =  data.coord.lat;
                     var cityLongitude = data.coord.lon;
                     // fetch weather information
                     var apiOneCallUrl = oneCallUrl + cityLatitude + '&lon=' + cityLongitude + '&appid=' + openWeatherApiKey + '&units=imperial';
@@ -262,9 +263,17 @@ function getWeather(city) {
                                     }
 
                                     // ** END 5-DAY FORECAST DISPLAY ** //
+
                                 })
                             }
                         })
+                        //Add to Local Storage
+                        searchHistoryArray.searchedCity.push(city);
+                        saveSearchHistory();
+
+                        //Function to Create Button of Previous Cities
+                        searchHistory(city);
+
                 });
                 // if fetch goes through but Open Weather can't find details for city
             } else {
@@ -291,9 +300,7 @@ function submitCitySearch(event) {
         cityInputEl.val('');
     } else if (city) {
         getWeather(city);
-        searchHistory(city);
-        searchHistoryArray.searchedCity.push(city);
-        saveSearchHistory();
+
         //empty the form text area
         cityInputEl.val('');
         
